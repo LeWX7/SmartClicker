@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:SmartClicker.Controls"
+             xmlns:converters="clr-namespace:SmartClicker.Converters"
+             x:Class="SmartClicker.Views.MainPage"
+             BackgroundColor="#1F1F1F">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToStringConverter x:Key="IntToStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Верхняя панель с информацией -->
+        <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="0" Margin="5,0,0,0">
+            <controls:HeaderLabel Text="{Binding CurrentX}" />
+            <controls:HeaderLabel Text="{Binding CurrentY}" Margin="10,0,0,0" />
+            <controls:MediumLabel Text="{Binding StepScoreLabel}" Margin="25,0,0,0" />
+            <controls:MediumLabel Text="{Binding LapScore}" Margin="25,0,0,0" />
+        </StackLayout>
+
+        <!-- Основное содержимое с блоками кликов -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout x:Name="EntriesStackLayout" Padding="15,20" Spacing="15">
+                <!-- CollectionView с привязкой к ClickBlocks -->
+                <CollectionView ItemsSource="{Binding ClickBlocks}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="15" Padding="5">
+                                <controls:CustomSwitch IsToggled="{Binding IsRightClick}" Command="{Binding SwitchCommand}" />
+                                <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
+                                <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
+                                <controls:CustomEntry Placeholder="Периодичность" Text="{Binding ClickInterval, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
+                                <controls:CustomEntry Placeholder="Кол-во нажатий" Text="{Binding StepScore, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Правая панель управления -->
+        <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="EndAndExpand">
+            <controls:CustomEntry Placeholder="Введите количество блоков" Text="{Binding BlockCountEntry}" />
+            <HorizontalStackLayout>
+                <controls:CustomButton Text="Добавить блоки" Command="{Binding AddBlocksCommand}" />
+                <controls:CustomButton Text="(-заменить-)" Command="{Binding ReAddBlocksCommand}" />
+            </HorizontalStackLayout>
+            <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding BlockLapEntry}" Margin="0,5,0,0" />
+            <controls:CustomEntry Placeholder="Начать через" Text="{Binding StartOffsetEntry}" />
+        </StackLayout>
+
+        <!-- Нижняя панель с кнопками управления -->
+        <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10" Spacing="10">
+            <controls:CustomButton Text="Добавить текущую позицию &#xA;                  (Ctrl+X)" HorizontalOptions="EndAndExpand" BackgroundColor="#1B1B1B" />
+            <controls:CustomButton Text="Запустить (Ctrl+E)" Command="{Binding StartCommand}" />
+            <controls:CustomButton Text="Остановить (Ctrl+R)" Command="{Binding EndCommand}" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

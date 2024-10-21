@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartClicker.Controls.CustomEntry"
+             x:Name="Parent">
+    <Entry Text="{Binding Text, Source={x:Reference Parent}, Mode=TwoWay}"
+           Placeholder="{Binding Placeholder, Source={x:Reference Parent}}"
+           TextColor="White" PlaceholderColor="WhiteSmoke"
+           HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+           Keyboard="Numeric"
+           BackgroundColor="#1B1B1B"
+           FontSize="14" />
+</ContentView>

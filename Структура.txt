@@ -1,0 +1,20 @@
+SmartClicker/
+├── Controls/
+│   ├── HeaderLabel.xaml
+│   ├── MediumLabel.xaml
+│   ├── CustomEntry.xaml
+│   └── CustomButton.xaml
+├── Models/
+│   └── ClickBlock.cs
+├── ViewModels/
+│   └── MainPageViewModel.cs
+├── Views/
+│   └── MainPage.xaml
+│   └── MainPage.xaml.cs
+├── Services/
+│   ├── MouseService.cs
+│   ├── KeyboardHookService.cs
+│   └── AnimationService.cs
+├── Helpers/
+│   └── GlobalKeyboardHook.cs
+└── App.xaml
