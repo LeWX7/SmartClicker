@@ -6,6 +6,8 @@ using System.Windows.Input;
 using SmartClicker.Models;
 using SmartClicker.Services;
 using Microsoft.Maui.Controls;
+using Windows.UI.Shell;
+using SmartClicker.Controls;
 
 namespace SmartClicker.ViewModels
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 using Microsoft.Maui.Controls.Xaml;
 using Microsoft.Maui.Graphics.Text;
 using System.Windows.Input;
@@ -33,6 +34,20 @@ namespace SmartClicker.Controls
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
+        }
+
+        private async void OnAnimateClicked(object sender, EventArgs e)
+        {
+            // Плавное исчезновение
+            await Parent.FadeTo(0.5, 210);
+
+            // Масштабирование до 50%
+            await Parent.ScaleTo(0.9, 100);
+            await Parent.ScaleTo(1.05, 145);
+
+            // Возвращение к исходному состоянию
+            await Parent.FadeTo(1, 165);
+            await Parent.ScaleTo(1, 145);
         }
     }
 }

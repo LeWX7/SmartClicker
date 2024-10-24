@@ -1,12 +1,13 @@
 ﻿using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Xaml;
+using SmartClicker.Models;
 using System;
 using System.Windows.Input;
 
 namespace SmartClicker.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomSwitch : Button
+    public partial class CustomSwitch : ContentView
     {
         public CustomSwitch()
         {
@@ -57,26 +58,38 @@ namespace SmartClicker.Controls
         }
 
         // Метод обновления внешнего вида кнопки
-        private void UpdateAppearance()
+        private async void UpdateAppearance()
         {
             if (IsToggled)
             {
-                BackgroundColor = Color.FromHex("#1B1B1B");
-                TextColor = Color.FromHex("#FFD2B6");
-                Text = "ПКМ";
+                await Task.Delay(250);
+                InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
+                InnerButton.TextColor = Color.FromHex("#FFD2B6");
+                InnerButton.Text = "ПКМ";
             }
             else
             {
-                BackgroundColor = Color.FromHex("#1B1B1B");
-                TextColor = Color.FromHex("#D2FFDE");
-                Text = "ЛКМ";
+                await Task.Delay(250);
+                InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
+                InnerButton.TextColor = Color.FromHex("#D2FFDE");
+                InnerButton.Text = "ЛКМ";
             }
         }
 
         // Обработчик нажатия кнопки
-        private void OnButtonClicked(object sender, EventArgs e)
+        private async void OnButtonClicked(object sender, EventArgs e)
         {
             IsToggled = !IsToggled;
+
+            // Плавное исчезновение
+            await Parent.FadeTo(0.1, 210);
+
+            await Parent.ScaleTo(0.9, 100);
+            await Parent.ScaleTo(1.05, 145);
+
+            // Возвращение к исходному состоянию
+            await Parent.FadeTo(1, 165);
+            await Parent.ScaleTo(1, 145);
         }
     }
 }

@@ -39,7 +39,10 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <HorizontalStackLayout Spacing="15" Padding="5">
-                                <controls:CustomSwitch IsToggled="{Binding IsRightClick}" Command="{Binding SwitchCommand}" />
+                                <!--<controls:CustomSwitch IsToggled="{Binding IsRightClick}" />-->
+
+                                <Switch IsToggled="{Binding IsRightClick}" />
+
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
                                 <controls:CustomEntry Placeholder="Периодичность" Text="{Binding ClickInterval, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
@@ -64,7 +67,7 @@
 
         <!-- Нижняя панель с кнопками управления -->
         <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10" Spacing="10">
-            <controls:CustomButton Text="Добавить текущую позицию &#xA;                  (Ctrl+X)" HorizontalOptions="EndAndExpand" BackgroundColor="#1B1B1B" />
+            <Label Text= "Добавить текущую позицию &#xA;                  (Ctrl+X)" HorizontalOptions="EndAndExpand" BackgroundColor="#2C2C2C" FontSize="Subtitle"   />
             <controls:CustomButton Text="Запустить (Ctrl+E)" Command="{Binding StartCommand}" />
             <controls:CustomButton Text="Остановить (Ctrl+R)" Command="{Binding EndCommand}" />
         </StackLayout>

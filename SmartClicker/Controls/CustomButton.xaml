@@ -8,5 +8,6 @@
             TextColor="#1F1F1F"
             FontAttributes="Bold"
             BorderWidth="3"
-            Command="{Binding Command, Source={x:Reference Parent}}"/>
+            Command="{Binding Command, Source={x:Reference Parent}}"
+            Clicked="OnAnimateClicked"/>
 </ContentView>
