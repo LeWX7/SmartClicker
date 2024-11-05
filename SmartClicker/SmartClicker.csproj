@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks></TargetFrameworks>
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>SmartClicker</RootNamespace>
@@ -28,10 +28,25 @@
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
-		<AppInstallerUri>C:\Users\Oleks\Desktop\Programms\Programs\C# MAUI\SmartClicker\Release\Debug</AppInstallerUri>
+		<AppInstallerUri>C:\Users\Oleks\Desktop\Programms\Programs\C# MAUI\SmartClicker\Release</AppInstallerUri>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<PackageCertificateThumbprint>974012454E7637D07BD69AA4A1D09F369068E2E2</PackageCertificateThumbprint>
 		<DefaultLanguage>ru-ru</DefaultLanguage>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<AssemblyName>Smart Clicker by LeW_X</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <Optimize>False</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup>
+	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,24 +67,30 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Controls\Other3Switch.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Controls\Other3Switch.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.92" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
-		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\CustomSwitch.xaml.cs">
-	    <SubType>Code</SubType>
-	    <DependentUpon>CustomSwitch.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Controls\CustomSwitch.xaml">
+	  <MauiXaml Update="Controls\CustomSwitchV2.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Controls\CustomSwitchV2.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ using SmartClicker.Services;
 using Microsoft.Maui.Controls;
 using Windows.UI.Shell;
 using SmartClicker.Controls;
+using Microsoft.UI.Xaml.Documents;
 
 namespace SmartClicker.ViewModels
 {
@@ -207,8 +208,8 @@ namespace SmartClicker.ViewModels
                                 MouseService.MoveCursor(block.TargetX, block.TargetY);
                                 MouseService.Click(block.IsRightClick);
 
-                                StepScoreLabel = $"Кликов сделано: {i + 1}";
-                                LapScore = $"Кругов сделано: {u}";
+                                StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
+                                LapScore = $"Круг N: {u + 1} / {lapScore}";
 
                                 await Task.Delay(block.ClickInterval, token);
                             }

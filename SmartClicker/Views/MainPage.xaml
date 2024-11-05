@@ -39,10 +39,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <HorizontalStackLayout Spacing="15" Padding="5">
-                                <!--<controls:CustomSwitch IsToggled="{Binding IsRightClick}" />-->
-
-                                <Switch IsToggled="{Binding IsRightClick}" />
-
+                                <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"/>
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />
                                 <controls:CustomEntry Placeholder="Периодичность" Text="{Binding ClickInterval, Converter={StaticResource IntToStringConverter}, Mode=TwoWay}" />

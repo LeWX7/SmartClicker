@@ -1,0 +1,33 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartClicker.Controls.CustomSwitchV2"
+             x:Name="RootView">
+    <Button x:Name="InnerButton"
+        Clicked="OnButtonClicked"
+        BackgroundColor="{Binding BackgroundColor, Source={x:Reference InnerButton}}"
+        FontSize="14"
+        FontAttributes="Bold"
+        CornerRadius="15"
+        WidthRequest="65"
+        HeightRequest="35"
+        BorderWidth="3"
+        TextColor="White">
+
+        <Button.Triggers>
+            <DataTrigger TargetType="Button"
+                     Binding="{Binding IsToggled, Source={x:Reference RootView}}"
+                     Value="True">
+                <Setter Property="BackgroundColor" Value="#1B1B1B" />
+                <Setter Property="TextColor" Value="#FFD2B6" />
+                <Setter Property="Text" Value="ПКМ" />
+            </DataTrigger>
+            <DataTrigger TargetType="Button"
+                     Binding="{Binding IsToggled, Source={x:Reference RootView}}"
+                     Value="False">
+                <Setter Property="BackgroundColor" Value="#1B1B1B" />
+                <Setter Property="TextColor" Value="#D2FFDE" />
+                <Setter Property="Text" Value="ЛКМ" />
+            </DataTrigger>
+        </Button.Triggers>
+    </Button>
+</ContentView>

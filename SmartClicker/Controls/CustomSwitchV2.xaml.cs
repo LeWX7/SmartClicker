@@ -1,15 +1,11 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Xaml;
-using SmartClicker.Models;
-using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace SmartClicker.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomSwitch : ContentView
+    [XamlCompilation(XamlCompilationOptions.Skip)]
+    public partial class CustomSwitchV2 : ContentView
     {
-        public CustomSwitch()
+        public CustomSwitchV2()
         {
             InitializeComponent();
             // Устанавливаем начальные значения
@@ -21,7 +17,7 @@ namespace SmartClicker.Controls
             BindableProperty.Create(
                 nameof(IsToggled),
                 typeof(bool),
-                typeof(CustomSwitch),
+                typeof(CustomSwitchV2),
                 false,
                 BindingMode.TwoWay,
                 propertyChanged: OnIsToggledChanged);
@@ -38,7 +34,7 @@ namespace SmartClicker.Controls
             BindableProperty.Create(
                 nameof(Command),
                 typeof(ICommand),
-                typeof(CustomSwitch),
+                typeof(CustomSwitchV2),
                 null);
 
         public ICommand Command
@@ -50,10 +46,11 @@ namespace SmartClicker.Controls
         // Обработчик изменения свойства IsToggled
         private static void OnIsToggledChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is CustomSwitch customSwitch)
+            if (bindable is CustomSwitchV2 customSwitchV2)
             {
-                customSwitch.UpdateAppearance();
-                customSwitch.Command?.Execute(customSwitch.IsToggled);
+                customSwitchV2.UpdateAppearance();
+                customSwitchV2.Command?.Execute(customSwitchV2.IsToggled);
+                customSwitchV2.InvalidateMeasure(); // Принудительное обновление UI
             }
         }
 
@@ -81,15 +78,16 @@ namespace SmartClicker.Controls
         {
             IsToggled = !IsToggled;
 
-            // Плавное исчезновение
-            await Parent.FadeTo(0.1, 210);
+            // прозрачность
+            await RootView.FadeTo(0.1, 210);
 
-            await Parent.ScaleTo(0.9, 100);
-            await Parent.ScaleTo(1.05, 145);
+            // вжим
+            await RootView.ScaleTo(0.9, 100);
+            await RootView.ScaleTo(1.05, 145);
 
-            // Возвращение к исходному состоянию
-            await Parent.FadeTo(1, 165);
-            await Parent.ScaleTo(1, 145);
+            // возвращение
+            await RootView.FadeTo(1, 165);
+            await RootView.ScaleTo(1, 145);
         }
     }
 }
