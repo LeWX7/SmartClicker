@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using Microsoft.UI.Xaml.Documents;
+using SmartClicker.Models;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace SmartClicker.Controls
 {
@@ -59,14 +62,12 @@ namespace SmartClicker.Controls
         {
             if (IsToggled)
             {
-                await Task.Delay(250);
                 InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
                 InnerButton.TextColor = Color.FromHex("#FFD2B6");
                 InnerButton.Text = "ПКМ";
             }
             else
             {
-                await Task.Delay(250);
                 InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
                 InnerButton.TextColor = Color.FromHex("#D2FFDE");
                 InnerButton.Text = "ЛКМ";
@@ -78,11 +79,13 @@ namespace SmartClicker.Controls
         {
             IsToggled = !IsToggled;
 
+            // вжим
+            await RootView.ScaleTo(0.9, 100);
+
             // прозрачность
             await RootView.FadeTo(0.1, 210);
 
-            // вжим
-            await RootView.ScaleTo(0.9, 100);
+            // отжим
             await RootView.ScaleTo(1.05, 145);
 
             // возвращение

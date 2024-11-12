@@ -16,8 +16,8 @@ namespace SmartClicker
         {
             var window = base.CreateWindow(activationState);
 
-            window.Width = 960;
-            window.Height = 575;
+            window.Width = 870;
+            window.Height = 525;
 
             // Получение информации о дисплее
             var displayInfo = DeviceDisplay.MainDisplayInfo;

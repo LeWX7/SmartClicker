@@ -80,6 +80,20 @@ namespace SmartClicker.ViewModels
             set { _blockLapEntry = value; OnPropertyChanged(); }
         }
 
+        private string _blockDelayEntry;
+        public string BlockDelayEntry
+        {
+            get => _blockDelayEntry;
+            set { _blockDelayEntry = value; OnPropertyChanged(); }
+        }
+
+        private string _blockQuantityEntry;
+        public string BlockQuantityEntry
+        {
+            get => _blockQuantityEntry;
+            set { _blockQuantityEntry = value; OnPropertyChanged(); }
+        }
+
         public MainPageViewModel()
         {
             _keyboardHookService = new KeyboardHookService();
@@ -141,14 +155,16 @@ namespace SmartClicker.ViewModels
 
         private async Task AddBlocksAsync()
         {
+            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+
             if (int.TryParse(BlockCountEntry, out int blockCount))
             {
                 for (int i = 0; i < blockCount; i++)
                 {
                     ClickBlocks.Add(new ClickBlock
                     {
-                        ClickInterval = 1500,
-                        StepScore = 1
+                        ClickInterval = blockDelay,
+                        StepScore = blockQuantity
                     });
                 }
             }
@@ -156,6 +172,8 @@ namespace SmartClicker.ViewModels
 
         private async Task ReAddBlocksAsync()
         {
+            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+
             if (int.TryParse(BlockCountEntry, out int blockCount))
             {
                 ClickBlocks.Clear();
@@ -163,8 +181,8 @@ namespace SmartClicker.ViewModels
                 {
                     ClickBlocks.Add(new ClickBlock
                     {
-                        ClickInterval = 1500,
-                        StepScore = 1
+                        ClickInterval = blockDelay,
+                        StepScore = blockQuantity
                     });
                 }
             }
@@ -247,12 +265,14 @@ namespace SmartClicker.ViewModels
 
         private async Task RecordAsync()
         {
+            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+
             var block = new ClickBlock();
             MouseService.GetCursorPos(out MouseService.POINT point);
             block.TargetX = point.X;
             block.TargetY = point.Y;
-            block.ClickInterval = 1500;
-            block.StepScore = 1;
+            block.ClickInterval = blockDelay;
+            block.StepScore = blockQuantity;
 
             ClickBlocks.Add(block);
         }

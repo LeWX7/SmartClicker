@@ -38,14 +38,16 @@ namespace SmartClicker.Controls
 
         private async void OnAnimateClicked(object sender, EventArgs e)
         {
-            // Плавное исчезновение
-            await Parent.FadeTo(0.5, 210);
-
-            // Масштабирование до 50%
+            // вжим
             await Parent.ScaleTo(0.9, 100);
+
+            // прозрачность
+            await Parent.FadeTo(0.1, 210);
+
+            // отжим
             await Parent.ScaleTo(1.05, 145);
 
-            // Возвращение к исходному состоянию
+            // возвращение
             await Parent.FadeTo(1, 165);
             await Parent.ScaleTo(1, 145);
         }
