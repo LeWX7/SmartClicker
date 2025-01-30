@@ -18,7 +18,7 @@ namespace SmartClicker.ViewModels
         private readonly KeyboardHookService _keyboardHookService;
 
         private bool _isRunning;
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource? _cancellationTokenSource;
 
         public ObservableCollection<ClickBlock> ClickBlocks { get; }
 
@@ -94,6 +94,13 @@ namespace SmartClicker.ViewModels
             set { _blockQuantityEntry = value; OnPropertyChanged(); }
         }
 
+        private string _selectedUnit;
+        public string SelectedUnit
+        {
+            get => _selectedUnit;
+            set { _selectedUnit = value; OnPropertyChanged(); }
+        }
+
         public MainPageViewModel()
         {
             _keyboardHookService = new KeyboardHookService();
@@ -107,6 +114,9 @@ namespace SmartClicker.ViewModels
             RecordCommand = new Command(async () => await RecordAsync());
 
             StartUpdateCursorPosition();
+
+            SelectedUnit = "Миллисекунды";
+            
         }
 
         private void StartUpdateCursorPosition()
@@ -190,12 +200,41 @@ namespace SmartClicker.ViewModels
 
         private async Task StartAsync()
         {
-            int offset = 0;
-            if (!string.IsNullOrEmpty(StartOffsetEntry) && int.TryParse(StartOffsetEntry, out int parsedOffset))
+            float offset = 0;
+            if (!string.IsNullOrEmpty(StartOffsetEntry) && float.TryParse(StartOffsetEntry, out float parsedOffset))
             {
+                switch (SelectedUnit)
+                {
+                    case "Секунды":
+                        parsedOffset *= 1000;
+                        break;
+                    case "с":
+                        parsedOffset *= 1000;
+                        break;
+
+                    case "Минуты":
+                        parsedOffset *= 1000 * 60;
+                        break;
+
+                    case "Часы":
+                        parsedOffset *= 1000 * 60 * 60;
+                        break;
+                }
+
+
                 offset = parsedOffset;
             }
-            await Task.Delay(offset);
+
+            int wholeMilliseconds = (int)offset; // Целая часть задержки
+            float fractionalMilliseconds = offset - wholeMilliseconds; // Дробная часть
+
+            await Task.Delay(wholeMilliseconds);
+
+            if (fractionalMilliseconds > 0)
+            {
+                // Используем SpinWait для точной обработки оставшихся миллисекунд
+                await Task.Delay((int)(fractionalMilliseconds * 1000));
+            }
 
             if (_isRunning) return;
             _isRunning = true;

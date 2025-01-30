@@ -1,5 +1,8 @@
 ﻿using Microsoft.Maui.Controls;
+using SmartClicker.Models;
+using SmartClicker.ViewModels;
 using SmartClicker.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SmartClicker
 {

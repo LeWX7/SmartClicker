@@ -64,12 +64,28 @@
                 <controls:CustomButton Text="(-заменить-)" Command="{Binding ReAddBlocksCommand}" />
             </HorizontalStackLayout>
             <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding BlockLapEntry}" Margin="0,5,0,0" />
+            <HorizontalStackLayout Spacing="7">
             <controls:CustomEntry Placeholder="Начать через" Text="{Binding StartOffsetEntry}" />
+                <Picker x:Name="UnitPicker" TextColor="WhiteSmoke"
+                        SelectedItem="{Binding SelectedUnit, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Миллисекунды</x:String>
+                            <x:String>Секунды</x:String>
+                            <x:String>Минуты</x:String>
+                            <x:String>Часы</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </HorizontalStackLayout>
         </StackLayout>
 
         <!-- Нижняя панель с кнопками управления -->
         <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10" Spacing="10">
-            <Label Text= "Добавить текущую позицию &#xA;                  (Ctrl+X)" HorizontalOptions="EndAndExpand" BackgroundColor="#2C2C2C" FontSize="Subtitle" TextColor="White" />
+            <Label HorizontalOptions="EndAndExpand" BackgroundColor="#2C2C2C" FontSize="Micro" TextColor="White" 
+                Text= 
+                   "Добавить текущую позицию (Ctrl+X)  |  Дробная задержка указывается через “,”" 
+                   />
             <controls:CustomButton Text="Запустить (Ctrl+E)" Command="{Binding StartCommand}" />
             <controls:CustomButton Text="Остановить (Ctrl+R)" Command="{Binding EndCommand}" />
         </StackLayout>
