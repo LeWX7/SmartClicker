@@ -20,7 +20,12 @@ namespace SmartClicker.ViewModels
         private bool _isRunning;
         private CancellationTokenSource? _cancellationTokenSource;
 
-        public ObservableCollection<ClickBlock> ClickBlocks { get; }
+        // Инициализация ViewModels
+        public ObservableCollection<ClickBlock> ClickBlocks { get; } = new();
+
+        public DynamicViewModel DynamicData { get; }
+        public InputViewModel Input { get; }
+        public SettingsViewModel Settings { get; }
 
         // Commands
         public ICommand AddBlocksCommand { get; }
@@ -29,83 +34,15 @@ namespace SmartClicker.ViewModels
         public ICommand EndCommand { get; }
         public ICommand RecordCommand { get; }
 
-        // Properties for UI binding
-        private string _currentX;
-        public string CurrentX
-        {
-            get => _currentX;
-            set { _currentX = value; OnPropertyChanged(); }
-        }
-
-        private string _currentY;
-        public string CurrentY
-        {
-            get => _currentY;
-            set { _currentY = value; OnPropertyChanged(); }
-        }
-
-        private string _lapScore;
-        public string LapScore
-        {
-            get => _lapScore;
-            set { _lapScore = value; OnPropertyChanged(); }
-        }
-
-        private string _stepScoreLabel;
-        public string StepScoreLabel
-        {
-            get => _stepScoreLabel;
-            set { _stepScoreLabel = value; OnPropertyChanged(); }
-        }
-
-        // Entries
-        private string _blockCountEntry;
-        public string BlockCountEntry
-        {
-            get => _blockCountEntry;
-            set { _blockCountEntry = value; OnPropertyChanged(); }
-        }
-
-        private string _startOffsetEntry;
-        public string StartOffsetEntry
-        {
-            get => _startOffsetEntry;
-            set { _startOffsetEntry = value; OnPropertyChanged(); }
-        }
-
-        private string _blockLapEntry;
-        public string BlockLapEntry
-        {
-            get => _blockLapEntry;
-            set { _blockLapEntry = value; OnPropertyChanged(); }
-        }
-
-        private string _blockDelayEntry;
-        public string BlockDelayEntry
-        {
-            get => _blockDelayEntry;
-            set { _blockDelayEntry = value; OnPropertyChanged(); }
-        }
-
-        private string _blockQuantityEntry;
-        public string BlockQuantityEntry
-        {
-            get => _blockQuantityEntry;
-            set { _blockQuantityEntry = value; OnPropertyChanged(); }
-        }
-
-        private string _selectedUnit;
-        public string SelectedUnit
-        {
-            get => _selectedUnit;
-            set { _selectedUnit = value; OnPropertyChanged(); }
-        }
-
         public MainPageViewModel()
         {
             _keyboardHookService = new KeyboardHookService();
             _keyboardHookService.KeyDown += OnGlobalKeyDown;
+
             ClickBlocks = new ObservableCollection<ClickBlock>();
+            DynamicData = new DynamicViewModel();
+            Input = new InputViewModel();
+            Settings = new SettingsViewModel();
 
             AddBlocksCommand = new Command(async () => await AddBlocksAsync());
             ReAddBlocksCommand = new Command(async () => await ReAddBlocksAsync());
@@ -115,7 +52,7 @@ namespace SmartClicker.ViewModels
 
             StartUpdateCursorPosition();
 
-            SelectedUnit = "Миллисекунды";
+            Settings.SelectedUnit = "Миллисекунды";
             
         }
 
@@ -135,8 +72,8 @@ namespace SmartClicker.ViewModels
         {
             if (MouseService.GetCursorPos(out MouseService.POINT point))
             {
-                CurrentX = $"X: {point.X}";
-                CurrentY = $"Y: {point.Y}";
+                DynamicData.CurrentX = $"X: {point.X}";
+                DynamicData.CurrentY = $"Y: {point.Y}";
             }
         }
 
@@ -165,9 +102,9 @@ namespace SmartClicker.ViewModels
 
         private async Task AddBlocksAsync()
         {
-            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+            int.TryParse(Input.BlockDelayEntry, out int blockDelay); int.TryParse(Input.BlockQuantityEntry, out int blockQuantity);
 
-            if (int.TryParse(BlockCountEntry, out int blockCount))
+            if (int.TryParse(Input.BlockCountEntry, out int blockCount))
             {
                 for (int i = 0; i < blockCount; i++)
                 {
@@ -182,9 +119,9 @@ namespace SmartClicker.ViewModels
 
         private async Task ReAddBlocksAsync()
         {
-            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+            int.TryParse(Input.BlockDelayEntry, out int blockDelay); int.TryParse(Input.BlockQuantityEntry, out int blockQuantity);
 
-            if (int.TryParse(BlockCountEntry, out int blockCount))
+            if (int.TryParse(Input.BlockCountEntry, out int blockCount))
             {
                 ClickBlocks.Clear();
                 for (int i = 0; i < blockCount; i++)
@@ -201,9 +138,9 @@ namespace SmartClicker.ViewModels
         private async Task StartAsync()
         {
             float offset = 0;
-            if (!string.IsNullOrEmpty(StartOffsetEntry) && float.TryParse(StartOffsetEntry, out float parsedOffset))
+            if (!string.IsNullOrEmpty(Input.StartOffsetEntry) && float.TryParse(Input.StartOffsetEntry, out float parsedOffset))
             {
-                switch (SelectedUnit)
+                switch (Settings.SelectedUnit)
                 {
                     case "Секунды":
                         parsedOffset *= 1000;
@@ -240,7 +177,7 @@ namespace SmartClicker.ViewModels
             _isRunning = true;
 
             int lapScore = 1;
-            if (!string.IsNullOrEmpty(BlockLapEntry) && int.TryParse(BlockLapEntry, out int parsedLapScore))
+            if (!string.IsNullOrEmpty(Input.BlockLapEntry) && int.TryParse(Input.BlockLapEntry, out int parsedLapScore))
             {
                 lapScore = parsedLapScore;
             }
@@ -265,8 +202,8 @@ namespace SmartClicker.ViewModels
                                 MouseService.MoveCursor(block.TargetX, block.TargetY);
                                 MouseService.Click(block.IsRightClick);
 
-                                StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
-                                LapScore = $"Круг N: {u + 1} / {lapScore}";
+                                DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
+                                DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";
 
                                 await Task.Delay(block.ClickInterval, token);
                             }
@@ -304,12 +241,12 @@ namespace SmartClicker.ViewModels
 
         private async Task RecordAsync()
         {
-            int.TryParse(BlockDelayEntry, out int blockDelay); int.TryParse(BlockQuantityEntry, out int blockQuantity);
+            int.TryParse(Input.BlockDelayEntry, out int blockDelay); int.TryParse(Input.BlockQuantityEntry, out int blockQuantity);
 
             var block = new ClickBlock();
             MouseService.GetCursorPos(out MouseService.POINT point);
-            block.TargetX = point.X;
             block.TargetY = point.Y;
+            block.TargetX = point.X;
             block.ClickInterval = blockDelay;
             block.StepScore = blockQuantity;
 

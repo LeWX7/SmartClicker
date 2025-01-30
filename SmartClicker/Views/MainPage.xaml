@@ -25,15 +25,15 @@
 
         <!-- Верхняя панель с информацией -->
         <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="5" Margin="5,0,0,45">
-            <controls:HeaderLabel Text="{Binding CurrentX}" />
-            <controls:HeaderLabel Text="{Binding CurrentY}" Margin="10,0,0,0" />
-            <controls:MediumLabel Text="{Binding StepScoreLabel}" Margin="25,0,0,0" />
-            <controls:MediumLabel Text="{Binding LapScore}" Margin="25,0,0,0" />
+            <controls:HeaderLabel Text="{Binding DynamicData.CurrentX}" />
+            <controls:HeaderLabel Text="{Binding DynamicData.CurrentY}" Margin="10,0,0,0" />
+            <controls:MediumLabel Text="{Binding DynamicData.StepScoreLabel}" Margin="25,0,0,0" />
+            <controls:MediumLabel Text="{Binding DynamicData.LapScore}" Margin="25,0,0,0" />
         </StackLayout>
 
         <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,45,213,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
-            <controls:CustomEntry Placeholder="Стандартная задержка" Text="{Binding BlockDelayEntry}"/>
-            <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding BlockQuantityEntry}"/>
+            <controls:CustomEntry Placeholder="Стандартная задержка" Text="{Binding Input.BlockDelayEntry}"/>
+            <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
         </HorizontalStackLayout>
 
         <!-- Основное содержимое с блоками кликов -->
@@ -51,7 +51,7 @@
                              OffBackgroundColor="#1B1B1B"
                              OnTextColor="#FFD2B6"
                              OffTextColor="#D2FFDE"/>
-                                
+
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
                                 <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />
@@ -65,16 +65,16 @@
 
         <!-- Правая панель управления -->
         <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="EndAndExpand">
-            <controls:CustomEntry Placeholder="Введите количество блоков" Text="{Binding BlockCountEntry}" />
+            <controls:CustomEntry Placeholder="Введите количество блоков" Text="{Binding Input.BlockCountEntry}" />
             <HorizontalStackLayout>
                 <controls:CustomButton Text="Добавить блоки" Command="{Binding AddBlocksCommand}" />
                 <controls:CustomButton Text="(-заменить-)" Command="{Binding ReAddBlocksCommand}" />
             </HorizontalStackLayout>
-            <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding BlockLapEntry}" Margin="0,5,0,0" />
+            <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding Input.BlockLapEntry}" Margin="0,5,0,0" />
             <HorizontalStackLayout Spacing="7">
-            <controls:CustomEntry Placeholder="Начать через" Text="{Binding StartOffsetEntry}" />
+                <controls:CustomEntry Placeholder="Начать через" Text="{Binding Input.StartOffsetEntry}" />
                 <Picker x:Name="UnitPicker" TextColor="WhiteSmoke"
-                        SelectedItem="{Binding SelectedUnit, Mode=TwoWay}">
+                        SelectedItem="{Binding Settings.SelectedUnit, Mode=TwoWay}">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Миллисекунды</x:String>
