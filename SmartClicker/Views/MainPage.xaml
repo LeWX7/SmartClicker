@@ -44,7 +44,14 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <HorizontalStackLayout Spacing="15" Padding="5">
-                                <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"/>
+                                <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"
+                             OnText="ПКМ"
+                             OffText="ЛКМ"
+                             OnBackgroundColor="#1B1B1B"
+                             OffBackgroundColor="#1B1B1B"
+                             OnTextColor="#FFD2B6"
+                             OffTextColor="#D2FFDE"/>
+                                
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
                                 <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />

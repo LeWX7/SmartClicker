@@ -1,44 +1,29 @@
-﻿using Microsoft.UI.Xaml.Documents;
-using SmartClicker.Models;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace SmartClicker.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class CustomSwitchV2 : ContentView
     {
         public CustomSwitchV2()
         {
             InitializeComponent();
-            // Устанавливаем начальные значения
-            UpdateAppearance();
         }
 
-        // BindableProperty для IsToggled
+        // Свойство IsToggled
         public static readonly BindableProperty IsToggledProperty =
-            BindableProperty.Create(
-                nameof(IsToggled),
-                typeof(bool),
-                typeof(CustomSwitchV2),
-                false,
-                BindingMode.TwoWay,
-                propertyChanged: OnIsToggledChanged);
+            BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CustomSwitchV2), false, BindingMode.TwoWay);
 
-        // Свойство для привязки
         public bool IsToggled
         {
             get => (bool)GetValue(IsToggledProperty);
             set => SetValue(IsToggledProperty, value);
         }
 
-        // BindableProperty для Command
+        // Свойство для команды
         public static readonly BindableProperty CommandProperty =
-            BindableProperty.Create(
-                nameof(Command),
-                typeof(ICommand),
-                typeof(CustomSwitchV2),
-                null);
+            BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(CustomSwitchV2), null);
 
         public ICommand Command
         {
@@ -46,49 +31,71 @@ namespace SmartClicker.Controls
             set => SetValue(CommandProperty, value);
         }
 
-        // Обработчик изменения свойства IsToggled
-        private static void OnIsToggledChanged(BindableObject bindable, object oldValue, object newValue)
+        // Настраиваемые свойства
+        public static readonly BindableProperty OnTextProperty =
+            BindableProperty.Create(nameof(OnText), typeof(string), typeof(CustomSwitchV2), "ВКЛ");
+
+        public string OnText
         {
-            if (bindable is CustomSwitchV2 customSwitchV2)
-            {
-                customSwitchV2.UpdateAppearance();
-                customSwitchV2.Command?.Execute(customSwitchV2.IsToggled);
-                customSwitchV2.InvalidateMeasure(); // Принудительное обновление UI
-            }
+            get => (string)GetValue(OnTextProperty);
+            set => SetValue(OnTextProperty, value);
         }
 
-        // Метод обновления внешнего вида кнопки
-        private async void UpdateAppearance()
+        public static readonly BindableProperty OffTextProperty =
+            BindableProperty.Create(nameof(OffText), typeof(string), typeof(CustomSwitchV2), "ВЫКЛ");
+
+        public string OffText
         {
-            if (IsToggled)
-            {
-                InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
-                InnerButton.TextColor = Color.FromHex("#FFD2B6");
-                InnerButton.Text = "ПКМ";
-            }
-            else
-            {
-                InnerButton.BackgroundColor = Color.FromHex("#1B1B1B");
-                InnerButton.TextColor = Color.FromHex("#D2FFDE");
-                InnerButton.Text = "ЛКМ";
-            }
+            get => (string)GetValue(OffTextProperty);
+            set => SetValue(OffTextProperty, value);
         }
 
-        // Обработчик нажатия кнопки
+        public static readonly BindableProperty OnBackgroundColorProperty =
+            BindableProperty.Create(nameof(OnBackgroundColor), typeof(Color), typeof(CustomSwitchV2), Colors.Green);
+
+        public Color OnBackgroundColor
+        {
+            get => (Color)GetValue(OnBackgroundColorProperty);
+            set => SetValue(OnBackgroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty OffBackgroundColorProperty =
+            BindableProperty.Create(nameof(OffBackgroundColor), typeof(Color), typeof(CustomSwitchV2), Colors.Red);
+
+        public Color OffBackgroundColor
+        {
+            get => (Color)GetValue(OffBackgroundColorProperty);
+            set => SetValue(OffBackgroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty OnTextColorProperty =
+            BindableProperty.Create(nameof(OnTextColor), typeof(Color), typeof(CustomSwitchV2), Colors.White);
+
+        public Color OnTextColor
+        {
+            get => (Color)GetValue(OnTextColorProperty);
+            set => SetValue(OnTextColorProperty, value);
+        }
+
+        public static readonly BindableProperty OffTextColorProperty =
+            BindableProperty.Create(nameof(OffTextColor), typeof(Color), typeof(CustomSwitchV2), Colors.White);
+
+        public Color OffTextColor
+        {
+            get => (Color)GetValue(OffTextColorProperty);
+            set => SetValue(OffTextColorProperty, value);
+        }
+
+        // Обработчик нажатия
         private async void OnButtonClicked(object sender, EventArgs e)
         {
             IsToggled = !IsToggled;
+            Command?.Execute(IsToggled);
 
-            // вжим
+            // Анимации
             await RootView.ScaleTo(0.9, 100);
-
-            // прозрачность
             await RootView.FadeTo(0.1, 210);
-
-            // отжим
             await RootView.ScaleTo(1.05, 145);
-
-            // возвращение
             await RootView.FadeTo(1, 165);
             await RootView.ScaleTo(1, 145);
         }
