@@ -7,8 +7,8 @@
             FontSize="14"
             FontAttributes="Bold"
             CornerRadius="15"
-            WidthRequest="65"
-            HeightRequest="35"
+            MinimumWidthRequest="65" MaximumWidthRequest="250"
+            HeightRequest="35" MaximumHeightRequest="75"
             BorderWidth="3"
             TextColor="{Binding OffTextColor, Source={x:Reference RootView}}"
             BackgroundColor="{Binding OffBackgroundColor, Source={x:Reference RootView}}">

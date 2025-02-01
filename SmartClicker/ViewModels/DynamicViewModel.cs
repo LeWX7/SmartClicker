@@ -35,18 +35,49 @@ namespace SmartClicker.ViewModels
             set { _stepScoreLabel = value; OnPropertyChanged(); }
         }
 
+        private int _dynamicX;
+        public int DynamicX
+        {
+            get => _dynamicX;
+            set { _dynamicX = value; OnPropertyChanged(); }
+        }
+
+        private int _dynamicY;
+        public int DynamicY
+        {
+            get => _dynamicY;
+            set { _dynamicY = value; OnPropertyChanged(); }
+        }
+
+        public ICommand StartUpdateCursorCommand { get; }
         public ICommand UpdateCursorCommand { get; }
 
         public DynamicViewModel()
         {
+            StartUpdateCursorCommand = new Command(StartUpdateCursorPosition);
             UpdateCursorCommand = new Command(UpdateCursorPosition);
+        }
+
+        private void StartUpdateCursorPosition()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    UpdateCursorPosition();
+                    //await Task.Delay(100);
+                }
+            });
         }
 
         private void UpdateCursorPosition()
         {
             if (MouseService.GetCursorPos(out MouseService.POINT point))
             {
+                DynamicX = point.X;
                 CurrentX = $"X: {point.X}";
+
+                DynamicY = point.Y;
                 CurrentY = $"Y: {point.Y}";
             }
         }

@@ -50,31 +50,9 @@ namespace SmartClicker.ViewModels
             EndCommand = new Command(async () => await EndAsync());
             RecordCommand = new Command(async () => await RecordAsync());
 
-            StartUpdateCursorPosition();
+            DynamicData.StartUpdateCursorCommand.Execute(null);
 
             Settings.SelectedUnit = "Миллисекунды";
-            
-        }
-
-        private void StartUpdateCursorPosition()
-        {
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    UpdateCursorPosition();
-                    await Task.Delay(100);
-                }
-            });
-        }
-
-        private void UpdateCursorPosition()
-        {
-            if (MouseService.GetCursorPos(out MouseService.POINT point))
-            {
-                DynamicData.CurrentX = $"X: {point.X}";
-                DynamicData.CurrentY = $"Y: {point.Y}";
-            }
         }
 
         private void OnGlobalKeyDown(object sender, int vkCode)
@@ -199,8 +177,19 @@ namespace SmartClicker.ViewModels
                             {
                                 if (token.IsCancellationRequested) break;
 
-                                MouseService.MoveCursor(block.TargetX, block.TargetY);
+                                // Сохранение координат до перемещения курсора
+                                int pastCoordinateX = DynamicData.DynamicX; int pastCoordinateY = DynamicData.DynamicY;
+
+                                if (Settings.OnCoordinates)
+                                {MouseService.MoveCursor(DynamicData.DynamicX, DynamicData.DynamicY); }
+                                else
+                                { MouseService.MoveCursor(block.TargetX, block.TargetY); }
+                                
                                 MouseService.Click(block.IsRightClick);
+
+                                // Возвращение курсора на прошлую позицию
+                                if (Settings.BackMove)
+                                { MouseService.MoveCursor(pastCoordinateX, pastCoordinateY); }
 
                                 DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
                                 DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";

@@ -89,13 +89,18 @@ namespace SmartClicker.Controls
         // Обработчик нажатия
         private async void OnButtonClicked(object sender, EventArgs e)
         {
+
+            // Анимация: сжатие
+            await RootView.ScaleTo(0.9, 100);
+
+            // Анимация: прозрачность
+            await RootView.FadeTo(0.1, 210);
+
+            // Изменение состояния переключателя
             IsToggled = !IsToggled;
             Command?.Execute(IsToggled);
 
-            // Анимации
-            await RootView.ScaleTo(0.9, 100);
-            await RootView.FadeTo(0.1, 210);
-            await RootView.ScaleTo(1.05, 145);
+            // Анимация: возвращение к исходному размеру
             await RootView.FadeTo(1, 165);
             await RootView.ScaleTo(1, 145);
         }

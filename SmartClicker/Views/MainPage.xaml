@@ -31,9 +31,29 @@
             <controls:MediumLabel Text="{Binding DynamicData.LapScore}" Margin="25,0,0,0" />
         </StackLayout>
 
-        <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,45,213,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
-            <controls:CustomEntry Placeholder="Стандартная задержка" Text="{Binding Input.BlockDelayEntry}"/>
-            <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
+        <!-- Настройки -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,55,213,0" VerticalOptions="Start" HorizontalOptions="StartAndExpand">
+            <VerticalStackLayout Spacing="5">
+                <controls:CustomEntry Placeholder="Стандартная задержка" Text="{Binding Input.BlockDelayEntry}"/>
+                <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout Spacing="5">
+                <controls:CustomSwitchV2 IsToggled="{Binding Settings.OnCoordinates}"
+                    OnText="Не по координатам"
+                    OffText="По координатам"
+                    OnBackgroundColor="#1B1B1B"
+                    OffBackgroundColor="#1B1B1B"
+                    OnTextColor="#FFD2B6"
+                    OffTextColor="#D2FFDE"/>
+                <controls:CustomSwitchV2 IsToggled="{Binding Settings.BackMove}"
+                    OnText="Возвращать"
+                    OffText="Не возвращать"
+                    OnBackgroundColor="#1B1B1B"
+                    OffBackgroundColor="#1B1B1B"
+                    OnTextColor="#FFD2B6"
+                    OffTextColor="#D2FFDE"/>
+            </VerticalStackLayout>
         </HorizontalStackLayout>
 
         <!-- Основное содержимое с блоками кликов -->
@@ -45,12 +65,12 @@
                         <DataTemplate>
                             <HorizontalStackLayout Spacing="15" Padding="5">
                                 <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"
-                             OnText="ПКМ"
-                             OffText="ЛКМ"
-                             OnBackgroundColor="#1B1B1B"
-                             OffBackgroundColor="#1B1B1B"
-                             OnTextColor="#FFD2B6"
-                             OffTextColor="#D2FFDE"/>
+                                OnText="ПКМ"
+                                OffText="ЛКМ"
+                                OnBackgroundColor="#1B1B1B"
+                                OffBackgroundColor="#1B1B1B"
+                                OnTextColor="#FFD2B6"
+                                OffTextColor="#D2FFDE"/>
 
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
