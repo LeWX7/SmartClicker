@@ -18,7 +18,9 @@ namespace SmartClicker.ViewModels
         private readonly KeyboardHookService _keyboardHookService;
 
         private bool _isRunning;
+        private bool _isPaused;
         private CancellationTokenSource? _cancellationTokenSource;
+        private TaskCompletionSource<bool>? _pauseTaskCompletionSource;
 
         // Инициализация ViewModels
         public ObservableCollection<ClickBlock> ClickBlocks { get; } = new();
@@ -32,7 +34,24 @@ namespace SmartClicker.ViewModels
         public ICommand ReAddBlocksCommand { get; }
         public ICommand StartCommand { get; }
         public ICommand EndCommand { get; }
+        public ICommand PauseCommand { get; }
         public ICommand RecordCommand { get; }
+
+        public bool IsPaused
+        {
+            get => _isPaused;
+            set
+            {
+                if (_isPaused != value)
+                {
+                    _isPaused = value;
+                    OnPropertyChanged();
+                    TogglePauseInternal(_isPaused); // Передаём конкретное значение
+                }
+            }
+        }
+
+        Random random = new Random();
 
         public MainPageViewModel()
         {
@@ -48,6 +67,7 @@ namespace SmartClicker.ViewModels
             ReAddBlocksCommand = new Command(async () => await ReAddBlocksAsync());
             StartCommand = new Command(async () => await StartAsync());
             EndCommand = new Command(async () => await EndAsync());
+            PauseCommand = new Command(TogglePause);
             RecordCommand = new Command(async () => await RecordAsync());
 
             DynamicData.StartUpdateCursorCommand.Execute(null);
@@ -60,6 +80,7 @@ namespace SmartClicker.ViewModels
             const int VK_E = 0x45; // E key
             const int VK_R = 0x52; // R key
             const int VK_X = 0x58; // X key
+            const int VK_T = 0x54; // T key
             const int VK_CONTROL = 0x11; // Control key
 
             if (vkCode == VK_E && (MouseService.GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0) // Ctrl + E
@@ -75,6 +96,11 @@ namespace SmartClicker.ViewModels
             if (vkCode == VK_X && (MouseService.GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0) // Ctrl + X
             {
                 RecordCommand.Execute(null);
+            }
+
+            if (vkCode == VK_T && (MouseService.GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0) // Ctrl + T
+            {
+                PauseCommand.Execute(null);
             }
         }
 
@@ -177,6 +203,12 @@ namespace SmartClicker.ViewModels
                             {
                                 if (token.IsCancellationRequested) break;
 
+                                while (_isPaused)
+                                {
+                                    _pauseTaskCompletionSource ??= new TaskCompletionSource<bool>();
+                                    await _pauseTaskCompletionSource.Task;
+                                }
+
                                 // Сохранение координат до перемещения курсора
                                 int pastCoordinateX = DynamicData.DynamicX; int pastCoordinateY = DynamicData.DynamicY;
 
@@ -194,7 +226,11 @@ namespace SmartClicker.ViewModels
                                 DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
                                 DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";
 
-                                await Task.Delay(block.ClickInterval, token);
+                                // Добавление к интервалу случайную задержку в пользовательском диапазоне
+                                int interval = block.ClickInterval;
+                                interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
+
+                                await Task.Delay(interval, token);
                             }
                         }
                     }
@@ -240,6 +276,22 @@ namespace SmartClicker.ViewModels
             block.StepScore = blockQuantity;
 
             ClickBlocks.Add(block);
+        }
+
+        private void TogglePause()
+        {
+            IsPaused = !IsPaused;
+        }
+
+        private void TogglePauseInternal(bool isPaused)
+        {
+            if (!_isRunning) return;
+
+            if (!isPaused && _pauseTaskCompletionSource != null)
+            {
+                _pauseTaskCompletionSource.SetResult(true);
+                _pauseTaskCompletionSource = null;
+            }
         }
 
         public void Dispose()

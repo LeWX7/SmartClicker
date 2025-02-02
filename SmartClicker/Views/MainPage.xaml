@@ -38,6 +38,8 @@
                 <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
             </VerticalStackLayout>
             
+            <controls:CustomEntry Placeholder="Разброс задержки" Text="{Binding Input.RandomOfDelay}"/>
+
             <VerticalStackLayout Spacing="5">
                 <controls:CustomSwitchV2 IsToggled="{Binding Settings.OnCoordinates}"
                     OnText="Не по координатам"
@@ -110,11 +112,20 @@
         <!-- Нижняя панель с кнопками управления -->
         <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10" Spacing="10">
             <Label HorizontalOptions="EndAndExpand" BackgroundColor="#2C2C2C" FontSize="Micro" TextColor="White" 
-                Text= 
-                   "Добавить текущую позицию (Ctrl+X)  |  Дробная задержка указывается через “,”" 
-                   />
-            <controls:CustomButton Text="Запустить (Ctrl+E)" Command="{Binding StartCommand}" />
-            <controls:CustomButton Text="Остановить (Ctrl+R)" Command="{Binding EndCommand}" />
+                Text= "Добавить текущую позицию (Ctrl+X)  |  Дробная задержка указывается через “,”" />
+
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="EndAndExpand">
+                <controls:CustomSwitchV2 IsToggled="{Binding IsPaused, Mode=TwoWay}"
+                        OnText="Стоит на паузе⏸️ (Ctrl+T)"
+                        OffText="Пауза⏯️ (Ctrl+T)"
+                        OnBackgroundColor="#5CA35F"
+                        OffBackgroundColor="#5CA35F"
+                        OnTextColor="White"
+                        OffTextColor="#1F1F1F"/>
+                <controls:CustomButton Text="Завершить❌ (Ctrl+R)" Command="{Binding EndCommand}" Margin="0,0,25,0"/>
+
+                <controls:CustomButton Text="Запустить🔥 (Ctrl+E)" Command="{Binding StartCommand}" />
+            </HorizontalStackLayout>
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -40,6 +40,13 @@ namespace SmartClicker.ViewModels
             set { _blockQuantityEntry = value; OnPropertyChanged(); }
         }
 
+        private int _randomOfDelay;
+        public int RandomOfDelay
+        {
+            get => _randomOfDelay;
+            set { _randomOfDelay = value; OnPropertyChanged(); }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
