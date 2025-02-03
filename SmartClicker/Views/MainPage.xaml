@@ -89,8 +89,8 @@
         <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="EndAndExpand">
             <controls:CustomEntry Placeholder="Введите количество блоков" Text="{Binding Input.BlockCountEntry}" />
             <HorizontalStackLayout>
-                <controls:CustomButton Text="Добавить блоки" Command="{Binding AddBlocksCommand}" />
-                <controls:CustomButton Text="(-заменить-)" Command="{Binding ReAddBlocksCommand}" />
+                <controls:CustomButton Text="Добавить блоки🧩" Command="{Binding AddBlocksCommand}" />
+                <controls:CustomButton Text="(-заменить-)♻️" Command="{Binding ReAddBlocksCommand}" />
             </HorizontalStackLayout>
             <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding Input.BlockLapEntry}" Margin="0,5,0,0" />
             <HorizontalStackLayout Spacing="7">
@@ -116,9 +116,9 @@
 
             <HorizontalStackLayout Spacing="5" HorizontalOptions="EndAndExpand">
                 <controls:CustomSwitchV2 IsToggled="{Binding IsPaused, Mode=TwoWay}"
-                        OnText="Стоит на паузе⏸️ (Ctrl+T)"
+                        OnText="На паузе⏸️ (Ctrl+T)"
                         OffText="Пауза⏯️ (Ctrl+T)"
-                        OnBackgroundColor="#5CA35F"
+                        OnBackgroundColor="#7CA37F"
                         OffBackgroundColor="#5CA35F"
                         OnTextColor="White"
                         OffTextColor="#1F1F1F"/>
