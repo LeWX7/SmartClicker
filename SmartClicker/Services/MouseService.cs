@@ -43,5 +43,21 @@ namespace SmartClicker.Services
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
             }
         }
+
+        public static void Clamp(bool isClamping)
+        {
+            if (isClamping)
+            {
+                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            }
+            else
+            {
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+            }
+        }
+        public static void MouseUp()
+        {
+            mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
+        }
     }
 }

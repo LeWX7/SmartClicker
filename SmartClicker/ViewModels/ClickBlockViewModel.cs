@@ -22,6 +22,16 @@ namespace SmartClicker.ViewModels
                 OnPropertyChanged();
             }
         }
+        
+        public bool IsClamping
+        {
+            get => _clickBlock.IsClamping;
+            set
+            {
+                _clickBlock.IsClamping = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int TargetX
         {

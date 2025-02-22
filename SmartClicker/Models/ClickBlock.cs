@@ -6,6 +6,7 @@ namespace SmartClicker.Models
     public class ClickBlock : INotifyPropertyChanged
     {
         private bool _isRightClick;
+        private bool _isClamping;
         private int _targetX;
         private int _targetY;
         private int _clickInterval;
@@ -15,6 +16,12 @@ namespace SmartClicker.Models
         {
             get => _isRightClick;
             set { _isRightClick = value; OnPropertyChanged(); }
+        }
+        
+        public bool IsClamping
+        {
+            get => _isClamping;
+            set { _isClamping = value; OnPropertyChanged(); }
         }
 
         public int TargetX

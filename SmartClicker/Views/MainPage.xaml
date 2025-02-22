@@ -34,8 +34,8 @@
         <!-- Настройки -->
         <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,55,213,0" VerticalOptions="Start" HorizontalOptions="StartAndExpand">
             <VerticalStackLayout Spacing="5">
-                <controls:CustomEntry Placeholder="Стандартная задержка" Text="{Binding Input.BlockDelayEntry}"/>
-                <controls:CustomEntry Placeholder="Стандартное кол-во нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
+                <controls:CustomEntry Placeholder="Стандарт задержки" Text="{Binding Input.BlockDelayEntry}"/>
+                <controls:CustomEntry Placeholder="Стандарт кол-ва нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
             </VerticalStackLayout>
             
             <controls:CustomEntry Placeholder="Разброс задержки" Text="{Binding Input.RandomOfDelay}"/>
@@ -73,6 +73,14 @@
                                 OffBackgroundColor="#1B1B1B"
                                 OnTextColor="#FFD2B6"
                                 OffTextColor="#D2FFDE"/>
+                                
+                                <controls:CustomSwitchV2 IsToggled="{Binding IsClamping}"
+                                OnText="Зажать"
+                                OffText="Нажать"
+                                OnBackgroundColor="#1B1B1B"
+                                OffBackgroundColor="#1B1B1B"
+                                OnTextColor="#FFD2B6"
+                                OffTextColor="#D2FFDE"/>
 
                                 <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
                                 <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
@@ -87,12 +95,12 @@
 
         <!-- Правая панель управления -->
         <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="EndAndExpand">
-            <controls:CustomEntry Placeholder="Введите количество блоков" Text="{Binding Input.BlockCountEntry}" />
-            <HorizontalStackLayout>
-                <controls:CustomButton Text="Добавить блоки🧩" Command="{Binding AddBlocksCommand}" />
-                <controls:CustomButton Text="(-заменить-)♻️" Command="{Binding ReAddBlocksCommand}" />
+            <controls:CustomEntry Placeholder="Кол-во блоков" Text="{Binding Input.BlockCountEntry}" />
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                <controls:CustomButton Text="Добавить🧩" Command="{Binding AddBlocksCommand}" />
+                <controls:CustomButton Text="заменить♻️" Command="{Binding ReAddBlocksCommand}" />
             </HorizontalStackLayout>
-            <controls:CustomEntry Placeholder="Введите количество кругов" Text="{Binding Input.BlockLapEntry}" Margin="0,5,0,0" />
+            <controls:CustomEntry Placeholder="Кол-во кругов" Text="{Binding Input.BlockLapEntry}" Margin="0,5,0,0" />
             <HorizontalStackLayout Spacing="7">
                 <controls:CustomEntry Placeholder="Начать через" Text="{Binding Input.StartOffsetEntry}" />
                 <Picker x:Name="UnitPicker" TextColor="WhiteSmoke"

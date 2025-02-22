@@ -81,7 +81,7 @@ namespace SmartClicker.ViewModels
             const int VK_R = 0x52; // R key
             const int VK_X = 0x58; // X key
             const int VK_T = 0x54; // T key
-            const int VK_CONTROL = 0x11; // Control key
+            const int VK_CONTROL = 0x11; // Ctrl key
 
             if (vkCode == VK_E && (MouseService.GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0) // Ctrl + E
             {
@@ -180,6 +180,8 @@ namespace SmartClicker.ViewModels
             if (_isRunning) return;
             _isRunning = true;
 
+            IsPaused = false;
+
             int lapScore = 1;
             if (!string.IsNullOrEmpty(Input.BlockLapEntry) && int.TryParse(Input.BlockLapEntry, out int parsedLapScore))
             {
@@ -213,11 +215,12 @@ namespace SmartClicker.ViewModels
                                 int pastCoordinateX = DynamicData.DynamicX; int pastCoordinateY = DynamicData.DynamicY;
 
                                 if (Settings.OnCoordinates)
-                                {MouseService.MoveCursor(DynamicData.DynamicX, DynamicData.DynamicY); }
+                                { MouseService.MoveCursor(DynamicData.DynamicX, DynamicData.DynamicY); }
                                 else
                                 { MouseService.MoveCursor(block.TargetX, block.TargetY); }
-                                
+
                                 MouseService.Click(block.IsRightClick);
+                                MouseService.Clamp(block.IsClamping);
 
                                 // Возвращение курсора на прошлую позицию
                                 if (Settings.BackMove)
@@ -225,6 +228,11 @@ namespace SmartClicker.ViewModels
 
                                 DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
                                 DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";
+
+                                if (u + 1 == lapScore)
+                                {
+                                    MouseService.MouseUp();
+                                }
 
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
@@ -255,6 +263,8 @@ namespace SmartClicker.ViewModels
         {
             _cancellationTokenSource?.Cancel();
             _isRunning = false;
+
+            IsPaused = false;
         }
 
         private async Task SwitchToggledAsync(bool isToggled)
