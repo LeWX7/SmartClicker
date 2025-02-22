@@ -228,12 +228,7 @@ namespace SmartClicker.ViewModels
 
                                 DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
                                 DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";
-
-                                if (u + 1 == lapScore)
-                                {
-                                    MouseService.MouseUp();
-                                }
-
+                                
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
                                 interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
