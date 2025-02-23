@@ -149,9 +149,6 @@ namespace SmartClicker.ViewModels
                     case "Секунды":
                         parsedOffset *= 1000;
                         break;
-                    case "с":
-                        parsedOffset *= 1000;
-                        break;
 
                     case "Минуты":
                         parsedOffset *= 1000 * 60;
