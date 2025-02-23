@@ -219,8 +219,10 @@ namespace SmartClicker.ViewModels
                                 else
                                 { MouseService.MoveCursor(block.TargetX, block.TargetY); }
 
-                                MouseService.Click(block.IsRightClick);
-                                MouseService.Clamp(block.IsClamping);
+                                if (block.IsRightClick == true)
+                                {MouseService.Click(block.IsRightClick);}
+                                else
+                                {MouseService.Clamp(block.IsClamping);}
 
                                 // Возвращение курсора на прошлую позицию
                                 if (Settings.BackMove)
@@ -228,7 +230,7 @@ namespace SmartClicker.ViewModels
 
                                 DynamicData.StepScoreLabel = $"Кликов сделано: {i + 1} / {block.StepScore}";
                                 DynamicData.LapScore = $"Круг N: {u + 1} / {lapScore}";
-                                
+
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
                                 interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
