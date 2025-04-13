@@ -48,6 +48,13 @@ namespace SmartClicker.Models
             set { _stepScore = value; OnPropertyChanged(); }
         }
 
+        private int _randomOfDelay;
+        public int RandomOfDelay
+        {
+            get => _randomOfDelay;
+            set { _randomOfDelay = value; OnPropertyChanged(); }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>

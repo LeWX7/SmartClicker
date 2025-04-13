@@ -94,5 +94,15 @@ namespace SmartClicker.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public int RandomOfDelay
+        {
+            get => _clickBlock.RandomOfDelay;
+            set
+            {
+                _clickBlock.RandomOfDelay = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

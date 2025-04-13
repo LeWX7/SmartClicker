@@ -37,8 +37,6 @@
                 <controls:CustomEntry Placeholder="Стандарт задержки" Text="{Binding Input.BlockDelayEntry}"/>
                 <controls:CustomEntry Placeholder="Стандарт кол-ва нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
             </VerticalStackLayout>
-            
-            <controls:CustomEntry Placeholder="Разброс задержки" Text="{Binding Input.RandomOfDelay}"/>
 
             <VerticalStackLayout Spacing="5">
                 <controls:CustomSwitchV2 IsToggled="{Binding Settings.OnCoordinates}"
@@ -73,7 +71,7 @@
                                 OffBackgroundColor="#1B1B1B"
                                 OnTextColor="#FFD2B6"
                                 OffTextColor="#D2FFDE"/>
-                                
+
                                 <controls:CustomSwitchV2 IsToggled="{Binding IsClamping}"
                                 OnText="Зажать"
                                 OffText="Нажать"
@@ -82,10 +80,17 @@
                                 OnTextColor="#FFD2B6"
                                 OffTextColor="#D2FFDE"/>
 
-                                <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
-                                <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
-                                <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />
-                                <controls:CustomEntry Placeholder="Кол-во нажатий" Text="{Binding StepScore}" />
+                                <VerticalStackLayout>
+                                    <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
+                                    <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />
+                                    <controls:CustomEntry Placeholder="Кол-во нажатий" Text="{Binding StepScore}" />
+                                </VerticalStackLayout>
+
+                                <controls:CustomEntry Placeholder="Разброс &#x0a; задержки" Text="{Binding RandomOfDelay}"/>
                             </HorizontalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

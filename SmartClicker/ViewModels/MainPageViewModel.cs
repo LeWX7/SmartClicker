@@ -230,7 +230,7 @@ namespace SmartClicker.ViewModels
 
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
-                                interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
+                                interval = Math.Max(0, interval + random.Next(-block.RandomOfDelay, block.RandomOfDelay + 1));
 
                                 await Task.Delay(interval, token);
                             }
