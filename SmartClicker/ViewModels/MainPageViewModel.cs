@@ -217,9 +217,9 @@ namespace SmartClicker.ViewModels
                                 { MouseService.MoveCursor(block.TargetX, block.TargetY); }
 
                                 if (block.IsRightClick == true)
-                                {MouseService.Click(block.IsRightClick);}
+                                { MouseService.Click(block.IsRightClick); }
                                 else
-                                {MouseService.Clamp(block.IsClamping);}
+                                { MouseService.Clamp(block.IsClamping); }
 
                                 // Возвращение курсора на прошлую позицию
                                 if (Settings.BackMove)
@@ -230,7 +230,15 @@ namespace SmartClicker.ViewModels
 
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
-                                interval = Math.Max(0, interval + random.Next(-block.RandomOfDelay, block.RandomOfDelay + 1));
+
+                                if (block.RandomOfDelay == 0)
+                                {
+                                    interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
+                                }
+                                else
+                                {
+                                    interval = Math.Max(0, interval + random.Next(-block.RandomOfDelay, block.RandomOfDelay + 1));
+                                }
 
                                 await Task.Delay(interval, token);
                             }

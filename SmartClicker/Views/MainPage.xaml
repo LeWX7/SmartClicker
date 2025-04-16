@@ -38,6 +38,8 @@
                 <controls:CustomEntry Placeholder="Стандарт кол-ва нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
             </VerticalStackLayout>
 
+            <controls:CustomEntry Placeholder="Разброс &#x0a; задержки" Text="{Binding Input.RandomOfDelay}"/>
+
             <VerticalStackLayout Spacing="5">
                 <controls:CustomSwitchV2 IsToggled="{Binding Settings.OnCoordinates}"
                     OnText="Не по координатам"
