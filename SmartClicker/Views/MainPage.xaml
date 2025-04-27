@@ -130,16 +130,30 @@
                 Text= "Добавить текущую позицию (Ctrl+X)  |  Дробная задержка указывается через “,”" />
 
             <HorizontalStackLayout Spacing="5" HorizontalOptions="EndAndExpand">
-                <controls:CustomSwitchV2 IsToggled="{Binding IsPaused, Mode=TwoWay}"
-                        OnText="На паузе⏸️ (Ctrl+T)"
-                        OffText="Пауза⏯️ (Ctrl+T)"
+
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" Margin="0,0,110,0">
+                    <controls:CustomButton Text="Сохранить пресет 💾" Command="{Binding SavePresetCommand}" />
+
+                    <VerticalStackLayout Spacing="3">
+                        <Picker ItemsSource="{Binding PresetFiles}"
+                                SelectedItem="{Binding SelectedPresetFile}"
+                                MaximumWidthRequest="175"
+                                HeightRequest="30"/>
+                        <controls:CustomButton Text="Загрузить пресет 💾" Command="{Binding LoadPresetCommand}" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+
+                <controls:CustomSwitchV2 IsToggled="{Binding IsPaused, Mode=TwoWay}"  Margin="0,0,25,0"
+                        OnText="На паузе⏸️&#x0a;   (Ctrl+T)"
+                        OffText="Пауза⏯️&#x0a; (Ctrl+T)"
                         OnBackgroundColor="#7CA37F"
                         OffBackgroundColor="#5CA35F"
                         OnTextColor="White"
                         OffTextColor="#1F1F1F"/>
-                <controls:CustomButton Text="Завершить❌ (Ctrl+R)" Command="{Binding EndCommand}" Margin="0,0,25,0"/>
 
-                <controls:CustomButton Text="Запустить🔥 (Ctrl+E)" Command="{Binding StartCommand}" />
+                <controls:CustomButton Text="Завершить❌&#x0a;    (Ctrl+R)" Command="{Binding EndCommand}"/>
+                <controls:CustomButton Text="Запустить🔥&#x0a;   (Ctrl+E)" Command="{Binding StartCommand}" />
             </HorizontalStackLayout>
         </StackLayout>
     </Grid>
