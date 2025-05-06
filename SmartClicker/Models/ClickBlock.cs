@@ -11,8 +11,6 @@ namespace SmartClicker.Models
         private int _targetY;
         private int _clickInterval;
         private int _stepScore;
-        private int _randomOfDelay;
-        private string _note;
 
         public bool IsRightClick
         {
@@ -50,16 +48,11 @@ namespace SmartClicker.Models
             set { _stepScore = value; OnPropertyChanged(); }
         }
 
+        private int _randomOfDelay;
         public int RandomOfDelay
         {
             get => _randomOfDelay;
             set { _randomOfDelay = value; OnPropertyChanged(); }
-        }
-
-        public string Note
-        {
-            get => _note;
-            set { _note = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

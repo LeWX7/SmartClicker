@@ -104,15 +104,5 @@ namespace SmartClicker.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public string Note
-        {
-            get => _clickBlock.Note;
-            set
-            {
-                _clickBlock.Note = value;
-                OnPropertyChanged();
-            }
-        }
     }
 }
