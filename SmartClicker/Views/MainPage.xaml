@@ -32,7 +32,7 @@
         </StackLayout>
 
         <!-- Настройки -->
-        <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,55,213,0" VerticalOptions="Start" HorizontalOptions="StartAndExpand">
+        <HorizontalStackLayout Grid.Row="0" Spacing="15" Margin="20,55,213,0" VerticalOptions="Start" HorizontalOptions="Start">
             <VerticalStackLayout Spacing="5">
                 <controls:CustomEntry Placeholder="Стандарт задержки" Text="{Binding Input.BlockDelayEntry}"/>
                 <controls:CustomEntry Placeholder="Стандарт кол-ва нажатий" Text="{Binding Input.BlockQuantityEntry}"/>
@@ -65,35 +65,41 @@
                 <CollectionView ItemsSource="{Binding ClickBlocks}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <HorizontalStackLayout Spacing="15" Padding="5">
-                                <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"
-                                OnText="ПКМ"
-                                OffText="ЛКМ"
-                                OnBackgroundColor="#1B1B1B"
-                                OffBackgroundColor="#1B1B1B"
-                                OnTextColor="#FFD2B6"
-                                OffTextColor="#D2FFDE"/>
+                            <StackLayout>
+                                <HorizontalStackLayout Spacing="10" Padding="5">
+                                    <controls:CustomSwitchV2 IsToggled="{Binding IsRightClick}"
+                                                OnText="ПКМ"
+                                                OffText="ЛКМ"
+                                                OnBackgroundColor="#1B1B1B"
+                                                OffBackgroundColor="#1B1B1B"
+                                                OnTextColor="#FFD2B6"
+                                                OffTextColor="#D2FFDE"/>
 
-                                <controls:CustomSwitchV2 IsToggled="{Binding IsClamping}"
-                                OnText="Зажать"
-                                OffText="Нажать"
-                                OnBackgroundColor="#1B1B1B"
-                                OffBackgroundColor="#1B1B1B"
-                                OnTextColor="#FFD2B6"
-                                OffTextColor="#D2FFDE"/>
+                                    <controls:CustomSwitchV2 IsToggled="{Binding IsClamping}"
+                                                OnText="Зажать"
+                                                OffText="Нажать"
+                                                OnBackgroundColor="#1B1B1B"
+                                                OffBackgroundColor="#1B1B1B"
+                                                OnTextColor="#FFD2B6"
+                                                OffTextColor="#D2FFDE"/>
 
-                                <VerticalStackLayout>
-                                    <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
-                                    <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
+                                    <VerticalStackLayout>
+                                        <controls:CustomEntry Placeholder="Целевая X" Text="{Binding TargetX}" />
+                                        <controls:CustomEntry Placeholder="Целевая Y" Text="{Binding TargetY}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout>
+                                        <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />
+                                        <controls:CustomEntry Placeholder="Кол-во нажатий" Text="{Binding StepScore}" />
+                                    </VerticalStackLayout>
+
+                                    <controls:CustomEntry Placeholder="Разброс &#x0a; задержки" Text="{Binding RandomOfDelay}"/>
+                                </HorizontalStackLayout>
+                                <VerticalStackLayout Margin="6,0,0,10" HorizontalOptions="Start">
+                                    <controls:CustomEntry MaximumWidthRequest="377" Placeholder="Заметка"
+                                                          Text="{Binding Note}"/>
                                 </VerticalStackLayout>
-
-                                <VerticalStackLayout>
-                                    <controls:CustomEntry Placeholder="Задержка" Text="{Binding ClickInterval}" />
-                                    <controls:CustomEntry Placeholder="Кол-во нажатий" Text="{Binding StepScore}" />
-                                </VerticalStackLayout>
-
-                                <controls:CustomEntry Placeholder="Разброс &#x0a; задержки" Text="{Binding RandomOfDelay}"/>
-                            </HorizontalStackLayout>
+                            </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -101,9 +107,9 @@
         </ScrollView>
 
         <!-- Правая панель управления -->
-        <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="EndAndExpand">
+        <StackLayout Grid.Row="1" Orientation="Vertical" Padding="0" Spacing="10" Margin="0,0,15,0" HorizontalOptions="End">
             <controls:CustomEntry Placeholder="Кол-во блоков" Text="{Binding Input.BlockCountEntry}" />
-            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+            <HorizontalStackLayout HorizontalOptions="Center">
                 <controls:CustomButton Text="Добавить🧩" Command="{Binding AddBlocksCommand}" />
                 <controls:CustomButton Text="заменить♻️" Command="{Binding ReAddBlocksCommand}" />
             </HorizontalStackLayout>
@@ -126,12 +132,12 @@
 
         <!-- Нижняя панель с кнопками управления -->
         <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10" Spacing="10">
-            <Label HorizontalOptions="EndAndExpand" BackgroundColor="#2C2C2C" FontSize="Micro" TextColor="White" 
+            <Label HorizontalOptions="End" BackgroundColor="#2C2C2C" FontSize="Micro" TextColor="White" 
                 Text= "Добавить текущую позицию (Ctrl+X)  |  Дробная задержка указывается через “,”" />
 
-            <HorizontalStackLayout Spacing="5" HorizontalOptions="EndAndExpand">
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="End">
 
-                <HorizontalStackLayout Spacing="10" HorizontalOptions="StartAndExpand" Margin="0,0,110,0">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Start" Margin="0,0,110,0">
                     <controls:CustomButton Text="Сохранить пресет 💾" Command="{Binding SavePresetCommand}" />
 
                     <VerticalStackLayout Spacing="3">
