@@ -11,6 +11,7 @@ using SmartClicker.Controls;
 using Microsoft.UI.Xaml.Documents;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SmartClicker.ViewModels
 {
