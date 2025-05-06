@@ -9,12 +9,10 @@ using Microsoft.Maui.Controls;
 using Windows.UI.Shell;
 using SmartClicker.Controls;
 using Microsoft.UI.Xaml.Documents;
-using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SmartClicker.ViewModels
 {
-    public class MainPageViewModel : ObservableObject
+    public class MainPageViewModel : BindableObject, IDisposable
     {
         // Инициализация сервисов
         private readonly KeyboardHookService _keyboardHookService;
@@ -24,29 +22,12 @@ namespace SmartClicker.ViewModels
         private CancellationTokenSource? _cancellationTokenSource;
         private TaskCompletionSource<bool>? _pauseTaskCompletionSource;
 
-        private readonly PresetService _presetService = new();
-        private ObservableCollection<string> _presetFiles;
-        public ObservableCollection<string> PresetFiles
-        {
-            get => _presetFiles;
-            set => SetProperty(ref _presetFiles, value);
-        }
-
-        private string _selectedPresetFile;
-        public string SelectedPresetFile
-        {
-            get => _selectedPresetFile;
-            set => SetProperty(ref _selectedPresetFile, value);
-        }
-
         // Инициализация ViewModels
         public ObservableCollection<ClickBlock> ClickBlocks { get; } = new();
 
         public DynamicViewModel DynamicData { get; }
         public InputViewModel Input { get; }
         public SettingsViewModel Settings { get; }
-
-        public PresetData Preset { get; }
 
         // Commands
         public ICommand AddBlocksCommand { get; }
@@ -55,8 +36,6 @@ namespace SmartClicker.ViewModels
         public ICommand EndCommand { get; }
         public ICommand PauseCommand { get; }
         public ICommand RecordCommand { get; }
-        public ICommand SavePresetCommand { get; }
-        public ICommand LoadPresetCommand { get; }
 
         public bool IsPaused
         {
@@ -84,18 +63,12 @@ namespace SmartClicker.ViewModels
             Input = new InputViewModel();
             Settings = new SettingsViewModel();
 
-            Preset = new PresetData();
-
             AddBlocksCommand = new Command(async () => await AddBlocksAsync());
             ReAddBlocksCommand = new Command(async () => await ReAddBlocksAsync());
             StartCommand = new Command(async () => await StartAsync());
             EndCommand = new Command(async () => await EndAsync());
             PauseCommand = new Command(TogglePause);
             RecordCommand = new Command(async () => await RecordAsync());
-            SavePresetCommand = new Command(async () => await OnSavePresetClicked(null, null));
-            LoadPresetCommand = new Command(async () => await OnLoadPresetClicked(null, null));
-            
-            LoadPresetList();
 
             DynamicData.StartUpdateCursorCommand.Execute(null);
 
@@ -244,9 +217,9 @@ namespace SmartClicker.ViewModels
                                 { MouseService.MoveCursor(block.TargetX, block.TargetY); }
 
                                 if (block.IsRightClick == true)
-                                { MouseService.Click(block.IsRightClick); }
+                                {MouseService.Click(block.IsRightClick);}
                                 else
-                                { MouseService.Clamp(block.IsClamping); }
+                                {MouseService.Clamp(block.IsClamping);}
 
                                 // Возвращение курсора на прошлую позицию
                                 if (Settings.BackMove)
@@ -257,15 +230,7 @@ namespace SmartClicker.ViewModels
 
                                 // Добавление к интервалу случайную задержку в пользовательском диапазоне
                                 int interval = block.ClickInterval;
-
-                                if (block.RandomOfDelay == 0)
-                                {
-                                    interval = Math.Max(0, interval + random.Next(-Input.RandomOfDelay, Input.RandomOfDelay + 1));
-                                }
-                                else
-                                {
-                                    interval = Math.Max(0, interval + random.Next(-block.RandomOfDelay, block.RandomOfDelay + 1));
-                                }
+                                interval = Math.Max(0, interval + random.Next(-block.RandomOfDelay, block.RandomOfDelay + 1));
 
                                 await Task.Delay(interval, token);
                             }
@@ -337,44 +302,6 @@ namespace SmartClicker.ViewModels
         {
             _keyboardHookService.Dispose();
             _cancellationTokenSource?.Dispose();
-        }
-
-        private async Task OnSavePresetClicked(object sender, EventArgs e)
-        {
-            Preset.ClickBlocks = ClickBlocks.ToObservableCollection();
-            Preset.BlockDelayEntry = Input.BlockDelayEntry;
-            Preset.BlockQuantityEntry = Input.BlockQuantityEntry;
-            Preset.BlockLapEntry = Input.BlockLapEntry;
-            Preset.StartOffsetEntry = Input.StartOffsetEntry;
-            Preset.SelectedUnit = Settings.SelectedUnit;
-
-            string fileName = $"preset_{DateTime.Now:yyyyMMdd_HHmmss}.json";
-            await PresetService.SavePresetAsync(Preset, fileName);
-
-            LoadPresetList();
-        }
-
-        private async Task OnLoadPresetClicked(object sender, EventArgs e)
-        {
-            var loadedPreset = await PresetService.LoadPresetAsync(SelectedPresetFile);
-
-            ClickBlocks.Clear();
-            foreach (var block in loadedPreset.ClickBlocks)
-                ClickBlocks.Add(block);
-
-            Input.BlockDelayEntry = loadedPreset.BlockDelayEntry;
-            Input.BlockQuantityEntry = loadedPreset.BlockQuantityEntry;
-            Input.BlockLapEntry = loadedPreset.BlockLapEntry;
-            Input.StartOffsetEntry = loadedPreset.StartOffsetEntry;
-            Settings.SelectedUnit = loadedPreset.SelectedUnit;
-
-            LoadPresetList();
-        }
-
-        private void LoadPresetList()
-        {
-            var files = _presetService.GetAllPresetNames();
-            PresetFiles = new ObservableCollection<string>(files);
         }
     }
 }

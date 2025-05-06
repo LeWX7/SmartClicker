@@ -1,5 +1,4 @@
-﻿using SmartClicker.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SmartClicker.ViewModels
